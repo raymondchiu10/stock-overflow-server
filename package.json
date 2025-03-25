@@ -1,0 +1,35 @@
+{
+  "name": "stock-overflow-server",
+  "version": "1.0.0",
+  "description": "Node express server for Stock Overflow",
+  "type": "module",
+  "main": "server.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raymondchiu10/stock-overflow-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/raymondchiu10/stock-overflow-server/issues"
+  },
+  "scripts": {
+    "start": "node dist/server.js",
+    "build": "tsc",
+    "dev": "tsx watch server.ts"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.13.10",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  },
+  "license": "ISC",
+  "author": "Raymond Chiu",
+  "homepage": "https://github.com/raymondchiu10/stock-overflow-server#readme"
+}
