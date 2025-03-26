@@ -1,35 +1,35 @@
 {
-	"compilerOptions": {
-		/* Visit https://aka.ms/tsconfig to read more about this file */
+  "compilerOptions": {
+    /* Visit https://aka.ms/tsconfig to read more about this file */
 
-		/* Language and Environment */
-		"target": "ESNext",
+    /* Language and Environment */
+    "target": "ESNext",
 
-		/* Modules */
-		"module": "NodeNext",
-		"rootDir": "./",
-		"allowImportingTsExtensions": true,
-		"rewriteRelativeImportExtensions": true,
-		"resolveJsonModule": true,
+    /* Modules */
+    "module": "NodeNext",
+    "rootDir": "./",
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+    "resolveJsonModule": true,
 
-		/* Emit */
-		"outDir": "./dist",
-		"verbatimModuleSyntax": true,
-		"esModuleInterop": true,
-		"forceConsistentCasingInFileNames": true,
+    /* Emit */
+    "outDir": "./dist",
+    "verbatimModuleSyntax": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
 
-		/* Type Checking */
-		"strict": true,
+    /* Type Checking */
+    "strict": true,
 
-		/* Completeness */
-		"skipLibCheck": true,
+    /* Completeness */
+    "skipLibCheck": true,
 
-		"paths": {
-			"@/*": ["./"],
-			"@controllers/*": ["./routes/controllers"],
-			"@images/*": ["./public/images"]
-		}
-	},
-	"include": ["**/*.ts"],
-	"exclude": ["node_modules", "dist"]
+    "paths": {
+      "@/*": ["./"],
+      "@controllers/*": ["./routes/controllers"],
+      "@images/*": ["./public/images"]
+    }
+  },
+  "include": ["**/*.ts", "config/database.ts"],
+  "exclude": ["node_modules", "dist"]
 }
