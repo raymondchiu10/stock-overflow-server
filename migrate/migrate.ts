@@ -15,13 +15,13 @@ const tables: Table[] = [
 		  name VARCHAR(100),
 		  email VARCHAR(100) UNIQUE NOT NULL,
 		  password VARCHAR(255) NOT NULL,
-		  isAdmin BOOLEAN DEFAULT FALSE,
+		  role VARCHAR(100) NOT NULL,
 		  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 		);`,
 		seed: `
-		INSERT INTO users (name, email, password, isAdmin) VALUES
-		  ('ADMIN', 'admin@test.test', '$2b$10$0hkUO0Whbejoetr/gYsV0urTCxTdQG9fEe0r.tN8cwE1sKHRW1MIy', true),
-		  ('NOT ADMIN', 'client@test.test', '$2b$10$0hkUO0Whbejoetr/gYsV0urTCxTdQG9fEe0r.tN8cwE1sKHRW1MIy', false)
+		INSERT INTO users (name, email, password, role) VALUES
+		  ('ADMIN', 'admin@test.test', '$2b$10$0hkUO0Whbejoetr/gYsV0urTCxTdQG9fEe0r.tN8cwE1sKHRW1MIy', 'admin'),
+		  ('NOT ADMIN', 'client@test.test', '$2b$10$0hkUO0Whbejoetr/gYsV0urTCxTdQG9fEe0r.tN8cwE1sKHRW1MIy', 'client')
 		ON CONFLICT (email) DO NOTHING;`,
 	},
 	{
