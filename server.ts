@@ -4,7 +4,7 @@ import "dotenv/config";
 
 const app = express();
 
-const PORT = process.env.DB_PORT || 3000;
+const PORT = process.env.DB_PORT || 8080;
 const WHITELIST = process.env.DB_WHITELIST?.split(",") || [];
 
 import apiRoutes from "./routes/routes.ts";
