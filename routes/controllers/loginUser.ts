@@ -24,7 +24,7 @@ export default async (req: Request, res: Response) => {
 			return res.status(401).json({ message: "Invalid credentials" });
 		}
 
-		const token = jwt.sign({ username: rows[0].email }, SECRET_KEY, { expiresIn: "24h" });
+		const token = jwt.sign({ uuid: rows[0].uuid, role: rows[0].role }, SECRET_KEY, { expiresIn: "24h" });
 		res.status(202).json({ token });
 	} catch (err) {
 		console.error(err);
