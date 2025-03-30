@@ -10,12 +10,12 @@ export default async (req: Request, res: Response) => {
 	}
 
 	try {
-		const postgres = `INSERT INTO users (email, password) VALUES 
-		($1, $2)
+		const postgres = `INSERT INTO users (email, password, role) VALUES 
+		($1, $2, $3)
 		ON CONFLICT (email) DO NOTHING;`;
 
 		const hashedPassword = await bcrypt.hash(password, 10);
-		const { rowCount } = await pool.query(postgres, [email, hashedPassword]);
+		const { rowCount } = await pool.query(postgres, [email, hashedPassword, "client"]);
 
 		if (rowCount && rowCount === 0) {
 			return res.status(409).json({ error: "User already exists" });
