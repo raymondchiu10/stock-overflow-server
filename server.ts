@@ -4,10 +4,13 @@ import "dotenv/config";
 
 const app = express();
 
-const PORT = process.env.DB_PORT || 3000;
+const PORT = process.env.DB_PORT || 8080;
 const WHITELIST = process.env.DB_WHITELIST?.split(",") || [];
 
-import apiRoutes from "./routes/routes.ts";
+import registerUser from "./routes/controllers/registerUser.ts";
+import logInUser from "./routes/controllers/loginUser.ts";
+import userRoutes from "./routes/userRoutes.ts";
+import { authenticateJWT } from "./auth/auth.ts";
 
 const corsOptions: CorsOptions = {
 	origin: (origin, callback) => {
@@ -22,11 +25,15 @@ const corsOptions: CorsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-app.get("/health", (_req, res) => {
+app.route("/health").get((_req, res) => {
 	res.sendStatus(200);
 });
 
-app.use("/api", apiRoutes);
+app.route("/sign-up").post(registerUser);
+
+app.route("/log-in").post(logInUser);
+
+app.use("/users", authenticateJWT, userRoutes);
 
 app.use((err: any, _req: any, res: any, next: any) => {
 	if (err.name === "UnauthorizedError") {
