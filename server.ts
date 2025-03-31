@@ -11,6 +11,7 @@ import registerUser from "./routes/controllers/registerUser.ts";
 import logInUser from "./routes/controllers/loginUser.ts";
 import userRoutes from "./routes/userRoutes.ts";
 import { authenticateJWT } from "./auth/auth.ts";
+import inventoryRoutes from "./routes/inventoryRoutes.ts";
 
 const corsOptions: CorsOptions = {
 	origin: (origin, callback) => {
@@ -34,6 +35,7 @@ app.route("/sign-up").post(registerUser);
 app.route("/log-in").post(logInUser);
 
 app.use("/users", authenticateJWT, userRoutes);
+app.use("/inventory", inventoryRoutes);
 
 app.use((err: any, _req: any, res: any, next: any) => {
 	if (err.name === "UnauthorizedError") {
