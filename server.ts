@@ -12,6 +12,8 @@ import logInUser from "./routes/controllers/loginUser.ts";
 import userRoutes from "./routes/userRoutes.ts";
 import { authenticateJWT } from "./auth/auth.ts";
 import inventoryRoutes from "./routes/inventoryRoutes.ts";
+import companyRoutes from "./routes/companyRoutes.ts";
+import uploadRoutes from "./routes/uploadRoutes.ts";
 
 const corsOptions: CorsOptions = {
 	origin: (origin, callback) => {
@@ -24,7 +26,8 @@ const corsOptions: CorsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
+app.use("/upload", uploadRoutes);
 
 app.route("/health").get((_req, res) => {
 	res.sendStatus(200);
@@ -34,8 +37,11 @@ app.route("/sign-up").post(registerUser);
 
 app.route("/log-in").post(logInUser);
 
-app.use("/users", authenticateJWT, userRoutes);
+app.use("/company", companyRoutes);
+
 app.use("/inventory", inventoryRoutes);
+
+app.use("/users", authenticateJWT, userRoutes);
 
 app.use((err: any, _req: any, res: any, next: any) => {
 	if (err.name === "UnauthorizedError") {
