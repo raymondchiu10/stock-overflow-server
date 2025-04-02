@@ -67,8 +67,8 @@ const tables: Table[] = [
     );`,
 		seed: `
     INSERT INTO images (uuid, name, url, alt) VALUES
-      ('550e8400-e29b-41d4-a716-446655440006', 'name', 'https://placecats.com/300/200', 'this is a cat'),
-      ('550e8400-e29b-41d4-a716-446655440007', 'name', 'https://placecats.com/neo/300/200', 'this is neo the cat')
+      ('550e8400-e29b-41d4-a716-446655440006', 'name', 'https://res.cloudinary.com/raymond-chiu/image/upload/v1723857547/profile_raymond-chiu.webp', 'this is a cat'),
+      ('550e8400-e29b-41d4-a716-446655440007', 'name', 'https://res.cloudinary.com/raymond-chiu/image/upload/v1723857547/profile_raymond-chiu.webp', 'this is neo the cat')
     ON CONFLICT (uuid) DO NOTHING;`,
 	},
 	{

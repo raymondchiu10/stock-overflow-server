@@ -9,8 +9,7 @@ userRoutes.route("/profile").get(async (req: AuthenticatedRequest, res: Response
 		return res.status(401).json({ message: "User not authenticated for this route." });
 	}
 
-	console.log("User Profile Accessed:", req.user); // Logs user info
-	return res.json(req.user); // Send user details from the DB
+	return res.json(req.user);
 });
 
 userRoutes.route("/:uuid").get(async (req: AuthenticatedRequest, res: Response) => {

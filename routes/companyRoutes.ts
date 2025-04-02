@@ -43,19 +43,13 @@ companyRoutes.route("/:companyUuid/inventory").get(async (req: Request, res: Res
         inventory.name,
         inventory.description,
         inventory.base_price,
+	  	company_inventory.company_uuid,
         company_inventory.quantity,
-        company_inventory.company_price,
-        images.uuid AS image_uuid,
-        images.url AS image_url,
-        images.alt AS image_alt
+        company_inventory.company_price
       FROM
         company_inventory
       JOIN
         inventory ON company_inventory.inventory_uuid = inventory.uuid
-      LEFT JOIN
-		inventory_images ON inventory.uuid = inventory_images.inventory_uuid
-	  LEFT JOIN
-        images ON inventory_images.image_uuid = images.uuid
       WHERE
         company_inventory.company_uuid = $1
       ORDER BY
