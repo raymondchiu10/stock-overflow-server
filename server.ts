@@ -14,6 +14,7 @@ import { authenticateJWT } from "./auth/auth.ts";
 import inventoryRoutes from "./routes/inventoryRoutes.ts";
 import companyRoutes from "./routes/companyRoutes.ts";
 import uploadRoutes from "./routes/uploadRoutes.ts";
+import imageRoutes from "./routes/imageRoutes.ts";
 
 const corsOptions: CorsOptions = {
 	origin: (origin, callback) => {
@@ -42,6 +43,8 @@ app.use("/company", companyRoutes);
 app.use("/inventory", inventoryRoutes);
 
 app.use("/users", authenticateJWT, userRoutes);
+
+app.use("/images", imageRoutes);
 
 app.use((err: any, _req: any, res: any, next: any) => {
 	if (err.name === "UnauthorizedError") {
