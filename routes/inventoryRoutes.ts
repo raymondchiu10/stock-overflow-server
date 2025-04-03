@@ -27,7 +27,7 @@ inventoryRoutes.route("/").get(async (req: Request, res: Response) => {
 		const queryParams = companyUuid ? [limit, offset, companyUuid] : [limit, offset];
 
 		const countQuery = `
-		SELECT COUNT(*) 
+		SELECT COUNT(*) as total_count
 		FROM inventory
 		LEFT JOIN company_inventory ON inventory.uuid = company_inventory.inventory_uuid
 		${whereClause}
