@@ -28,6 +28,7 @@ const corsOptions: CorsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json({ limit: "10mb" }));
+
 app.use("/upload", uploadRoutes);
 
 app.route("/health").get((_req, res) => {
