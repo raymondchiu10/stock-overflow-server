@@ -1,10 +1,7 @@
-import { Router, type Request, type Response } from "express";
-import pool from "../config/database.ts";
-import getCompanyInventoryItem from "./controllers/getCompanyInventoryItem.ts";
+import { type Request, type Response } from "express";
+import pool from "../../config/database.ts";
 
-const companyRoutes = Router();
-
-companyRoutes.route("/:companyUuid/inventory").get(async (req: Request, res: Response) => {
+export default async (req: Request, res: Response) => {
 	try {
 		const companyUuid = req.params.companyUuid;
 
@@ -70,8 +67,4 @@ companyRoutes.route("/:companyUuid/inventory").get(async (req: Request, res: Res
 		console.error(err);
 		return res.status(500).json({ error: "Internal Server Error" });
 	}
-});
-
-companyRoutes.route("/:companyUuid/inventory/:inventoryUuid").get(getCompanyInventoryItem);
-
-export default companyRoutes;
+};
