@@ -18,7 +18,6 @@ export default async (req: Request, res: Response) => {
 			let inventoryUuid;
 			let inventoryItem;
 
-			// Check if this inventory item already exists
 			const checkInventoryQuery = `
         SELECT id, uuid, name, description, base_price FROM inventory WHERE name = $1
       `;
@@ -26,11 +25,9 @@ export default async (req: Request, res: Response) => {
 			const inventoryCheck = await client.query(checkInventoryQuery, [name]);
 
 			if (inventoryCheck.rows.length > 0) {
-				// Use existing inventory item
 				inventoryItem = inventoryCheck.rows[0];
 				inventoryUuid = inventoryItem.uuid;
 			} else {
-				// Create new inventory item
 				inventoryUuid = uuidv4();
 				const inventoryQuery = `
           INSERT INTO inventory (uuid, name, description, base_price)
@@ -48,9 +45,7 @@ export default async (req: Request, res: Response) => {
 				inventoryItem = inventoryResult.rows[0];
 			}
 
-			// If company_uuid is provided, create or update company_inventory
 			if (company_uuid) {
-				// Check if this company already has this inventory item
 				const checkCompanyInventoryQuery = `
           SELECT * FROM company_inventory 
           WHERE company_uuid = $1 AND inventory_uuid = $2
@@ -62,7 +57,6 @@ export default async (req: Request, res: Response) => {
 				]);
 
 				if (companyInventoryCheck.rows.length > 0) {
-					// Update existing company inventory association
 					const updateQuery = `
             UPDATE company_inventory
             SET quantity = $1, company_price = $2
@@ -76,7 +70,6 @@ export default async (req: Request, res: Response) => {
 						inventoryUuid,
 					]);
 				} else {
-					// Create new company inventory association
 					const companyInventoryQuery = `
             INSERT INTO company_inventory (company_uuid, inventory_uuid, quantity, company_price)
             VALUES ($1, $2, $3, $4)

@@ -1,5 +1,6 @@
 import { Router, type Request, type Response } from "express";
 import pool from "../config/database.ts";
+import getCompanyInventoryItem from "./controllers/getCompanyInventoryItem.ts";
 
 const companyRoutes = Router();
 
@@ -71,35 +72,6 @@ companyRoutes.route("/:companyUuid/inventory").get(async (req: Request, res: Res
 	}
 });
 
-companyRoutes.route("/:companyUuid/inventory/:inventoryUuid").get(async (req: Request, res: Response) => {
-	const companyUuid = req.params.companyUuid;
-	const inventoryUuid = req.params.inventoryUuid;
-
-	if (!companyUuid) {
-		return res.status(400).json({ error: "Invalid company UUID" });
-	}
-
-	if (!inventoryUuid) {
-		return res.status(400).json({ error: "Invalid inventory UUID" });
-	}
-	const postgres = `
-	SELECT
-        inventory.uuid,
-        inventory.name,
-        inventory.description,
-        inventory.base_price,
-        company_inventory.quantity,
-        company_inventory.company_price
-      FROM
-        company_inventory
-      JOIN
-        inventory ON company_inventory.inventory_uuid = inventory.uuid
-      WHERE
-        company_inventory.company_uuid = $1`;
-
-	const { rows } = await pool.query(postgres, [companyUuid]);
-
-	return res.json(rows);
-});
+companyRoutes.route("/:companyUuid/inventory/:inventoryUuid").get(getCompanyInventoryItem);
 
 export default companyRoutes;
