@@ -1,6 +1,7 @@
 import { Router, type Request, type Response } from "express";
 import { v2 as cloudinary } from "cloudinary";
 import "dotenv/config";
+import crypto from "crypto";
 
 const cloudinaryRoutes = Router();
 
@@ -34,8 +35,8 @@ cloudinaryRoutes
 			return res.json({
 				signature,
 				timestamp,
-				cloudName: process.env.DB_CLOUDINARY_CLOUD_NAME as string,
 				apiKey: process.env.DB_CLOUDINARY_API_KEY as string,
+				cloudName: process.env.DB_CLOUDINARY_CLOUD_NAME as string,
 			});
 		} catch (error) {
 			console.error("Error generating signature:", error);
