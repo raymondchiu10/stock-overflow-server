@@ -63,7 +63,8 @@ const tables: Table[] = [
       uuid VARCHAR(255) UNIQUE NOT NULL,
       name VARCHAR(255),
       url VARCHAR(255) NOT NULL,
-      alt VARCHAR(255)
+      alt VARCHAR(255),
+      cloudinary JSONB
     );`,
 		seed: `
     INSERT INTO images (uuid, name, url, alt) VALUES

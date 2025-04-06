@@ -157,12 +157,13 @@ interface ImagePayload {
 	url: string;
 	name?: string;
 	alt?: string;
+	cloudinary?: Record<any, any>;
 }
 
 imageRoutes.post("/inventory/:inventoryUuid", async (req: Request, res: Response) => {
 	try {
 		const { inventoryUuid } = req.params;
-		const { url, name, alt } = req.body as ImagePayload;
+		const { url, name, alt, cloudinary } = req.body as ImagePayload;
 
 		if (!url || typeof url !== "string") {
 			return res.status(400).json({ message: "A valid image URL is required." });
@@ -180,10 +181,11 @@ imageRoutes.post("/inventory/:inventoryUuid", async (req: Request, res: Response
 
 		const imageUuid = uuidv4();
 		const insertImageQuery = `
-			INSERT INTO images (uuid, name, url, alt)
-			VALUES ($1, $2, $3, $4)
+			INSERT INTO images (uuid, name, url, alt, cloudinary)
+			VALUES ($1, $2, $3, $4, $5)
 		`;
-		await pool.query(insertImageQuery, [imageUuid, name || null, url, alt || null]);
+
+		await pool.query(insertImageQuery, [imageUuid, name || null, url, alt || null, cloudinary || null]);
 
 		const insertRelationQuery = `
 			INSERT INTO inventory_images (inventory_uuid, image_uuid)
