@@ -42,11 +42,11 @@ app.route("/log-in").post(logInUser);
 
 app.use("/company", companyRoutes);
 
-app.use("/inventory", inventoryRoutes);
+app.use("/inventory", authenticateJWT, inventoryRoutes);
 
 app.use("/users", authenticateJWT, userRoutes);
 
-app.use("/images", authenticateJWT, imageRoutes);
+app.use("/images", imageRoutes);
 
 app.use("/cloudinary", cloudinaryRoutes);
 
