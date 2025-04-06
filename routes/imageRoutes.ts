@@ -1,6 +1,7 @@
 import { Router, type Request, type Response } from "express";
 import pool from "../config/database.ts";
 import { v4 as uuidv4 } from "uuid";
+import { authenticateJWT } from "../auth/auth.ts";
 
 const imageRoutes = Router();
 
@@ -160,7 +161,7 @@ interface ImagePayload {
 	cloudinary?: Record<any, any>;
 }
 
-imageRoutes.post("/inventory/:inventoryUuid", async (req: Request, res: Response) => {
+imageRoutes.route("/inventory/:inventoryUuid").post(authenticateJWT, async (req: Request, res: Response) => {
 	try {
 		const { inventoryUuid } = req.params;
 		const { url, name, alt, cloudinary } = req.body as ImagePayload;

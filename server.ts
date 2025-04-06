@@ -46,7 +46,7 @@ app.use("/inventory", authenticateJWT, inventoryRoutes);
 
 app.use("/users", authenticateJWT, userRoutes);
 
-app.use("/images", authenticateJWT, imageRoutes);
+app.use("/images", imageRoutes);
 
 app.use("/cloudinary", cloudinaryRoutes);
 
