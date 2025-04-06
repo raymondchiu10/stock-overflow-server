@@ -21,7 +21,6 @@ cloudinaryRoutes
 	.route("/signature")
 	.post(async (_req: Request, res: Response<SignatureResponse | Record<string, string | number>>) => {
 		try {
-			console.log("↪️ Signature endpoint hit");
 			const timestamp = Math.round(Date.now() / 1000);
 
 			const paramsToSign = {
