@@ -68,8 +68,8 @@ const tables: Table[] = [
     );`,
 		seed: `
     INSERT INTO images (uuid, name, url, alt) VALUES
-      ('550e8400-e29b-41d4-a716-446655440006', 'name', 'https://res.cloudinary.com/raymond-chiu/image/upload/v1723857547/profile_raymond-chiu.webp', 'this is a cat'),
-      ('550e8400-e29b-41d4-a716-446655440007', 'name', 'https://res.cloudinary.com/raymond-chiu/image/upload/v1723857547/profile_raymond-chiu.webp', 'this is neo the cat')
+      ('550e8400-e29b-41d4-a716-446655440006', 'name', 'https://res.cloudinary.com/raymond-chiu/image/upload/v1723857547/profile_raymond-chiu.webp', 'this is a person'),
+      ('550e8400-e29b-41d4-a716-446655440007', 'name', 'https://res.cloudinary.com/raymond-chiu/image/upload/v1743920954/il_1588xN.3251603922_7lpp_fbg1od.jpg', 'this is pants')
     ON CONFLICT (uuid) DO NOTHING;`,
 	},
 	{
