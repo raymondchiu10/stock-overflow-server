@@ -4,7 +4,6 @@ import QRCode from "qrcode";
 export default async (req: Request, res: Response) => {
 	try {
 		const { inventoryUuid } = req.params;
-		console.log("inventoryUuid", inventoryUuid);
 		const qrCodeImage = await QRCode.toDataURL(inventoryUuid);
 		return res.send(qrCodeImage);
 	} catch (err) {
