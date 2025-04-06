@@ -1,5 +1,6 @@
 import { Router, type Request, type Response } from "express";
 import pool from "../config/database.ts";
+import { v4 as uuidv4 } from "uuid";
 
 const imageRoutes = Router();
 
@@ -149,6 +150,66 @@ imageRoutes.route("/company/:companyUuid/inventory/:inventoryUuid").get(async (r
 	} catch (error) {
 		console.error("Error fetching images:", error);
 		return res.status(500).json({ error: "Internal server error" });
+	}
+});
+
+interface ImagePayload {
+	url: string;
+	name?: string;
+	alt?: string;
+}
+
+imageRoutes.post("/inventory/:inventoryUuid", async (req: Request, res: Response) => {
+	try {
+		const { inventoryUuid } = req.params;
+		const { url, name, alt } = req.body as ImagePayload;
+
+		if (!url || typeof url !== "string") {
+			return res.status(400).json({ message: "A valid image URL is required." });
+		}
+
+		await pool.query("BEGIN");
+
+		const inventoryCheckQuery = `SELECT 1 FROM inventory WHERE uuid = $1`;
+		const inventoryCheck = await pool.query(inventoryCheckQuery, [inventoryUuid]);
+
+		if (inventoryCheck.rowCount === 0) {
+			await pool.query("ROLLBACK");
+			return res.status(404).json({ message: "Inventory item not found." });
+		}
+
+		const imageUuid = uuidv4();
+		const insertImageQuery = `
+			INSERT INTO images (uuid, name, url, alt)
+			VALUES ($1, $2, $3, $4)
+		`;
+		await pool.query(insertImageQuery, [imageUuid, name || null, url, alt || null]);
+
+		const insertRelationQuery = `
+			INSERT INTO inventory_images (inventory_uuid, image_uuid)
+			VALUES ($1, $2)
+		`;
+		await pool.query(insertRelationQuery, [inventoryUuid, imageUuid]);
+
+		await pool.query("COMMIT");
+
+		return res.status(201).json({
+			success: true,
+			message: "Image added to inventory successfully.",
+			data: {
+				imageUuid,
+				inventoryUuid,
+			},
+		});
+	} catch (err: any) {
+		await pool.query("ROLLBACK");
+		console.error("Error adding image to inventory:", err);
+
+		if (err.code === "23503") {
+			return res.status(404).json({ message: "Foreign key constraint failed." });
+		}
+
+		return res.status(500).json({ message: "Error adding image to inventory." });
 	}
 });
 
