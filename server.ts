@@ -16,6 +16,7 @@ import companyRoutes from "./routes/companyRoutes.ts";
 import uploadRoutes from "./routes/cloudinaryRoutes.ts";
 import imageRoutes from "./routes/imageRoutes.ts";
 import cloudinaryRoutes from "./routes/cloudinaryRoutes.ts";
+import qrcodeRoutes from "./routes/qrcodeRoutes.ts";
 
 const corsOptions: CorsOptions = {
 	origin: (origin, callback) => {
@@ -49,6 +50,7 @@ app.use("/users", authenticateJWT, userRoutes);
 app.use("/images", imageRoutes);
 
 app.use("/cloudinary", cloudinaryRoutes);
+app.use("/qrcode", qrcodeRoutes);
 
 app.use((err: any, _req: any, res: any, next: any) => {
 	if (err.name === "UnauthorizedError") {
