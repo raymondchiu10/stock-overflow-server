@@ -13,35 +13,33 @@ export default async (req: Request, res: Response) => {
 		const limit = Math.max(parseInt(req.query.limit as string) || 10, 1);
 		const offset = (page - 1) * limit;
 
-		// Allowed columns for sorting
-		const allowedSortColumns = [
-			"inventory.id",
-			"inventory.name",
-			"company_inventory.quantity",
-			"company_inventory.company_price",
-		];
+		const sortMap: Record<string, string> = {
+			inventory_uuid: "inventory.uuid",
+			inventory_name: "inventory.name",
+			quantity: "company_inventory.quantity",
+			company_price: "company_inventory.company_price",
+		};
+
 		const allowedOrderValues = ["asc", "desc"];
+		const rawSort = req.query.sort as string;
+		const sort = sortMap[rawSort] || "inventory.uuid";
+		const order = allowedOrderValues.includes((req.query.order as string)?.toLowerCase())
+			? (req.query.order as string).toLowerCase()
+			: "asc";
 
-		const sort = allowedSortColumns.includes(req.query.sort as string) ? req.query.sort : "inventory.uuid";
-		const order = allowedOrderValues.includes(req.query.order as string) ? req.query.order : "asc";
-
-		// Get total count of records for this company
 		const countQuery = `
-      SELECT COUNT(*)
-      FROM company_inventory
-      WHERE company_uuid = $1
+      SELECT COUNT(*) FROM company_inventory WHERE company_uuid = $1
     `;
 		const countResult = await pool.query(countQuery, [companyUuid]);
 		const totalCount = countResult.rows.length > 0 ? parseInt(countResult.rows[0].count, 10) : 0;
 
-		// Fetch inventory data for the specific company with pagination
 		const query = `
       SELECT
-        inventory.uuid,
-        inventory.name,
+        inventory.uuid AS inventory_uuid,
+        inventory.name AS inventory_name,
         inventory.description,
         inventory.base_price,
-	  	company_inventory.company_uuid,
+        company_inventory.company_uuid,
         company_inventory.quantity,
         company_inventory.company_price
       FROM
