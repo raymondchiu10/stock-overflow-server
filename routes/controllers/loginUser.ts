@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import pool from "../../config/database.ts";
 import jwt from "jsonwebtoken";
 
-const SECRET_KEY = process.env.JWT_SECRET || "your_secret_key";
+const SECRET_KEY = process.env.DB_JWT_SECRET || "your_secret_key";
 
 export default async (req: Request, res: Response) => {
 	const { email, password } = req.body;

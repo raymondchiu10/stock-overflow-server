@@ -2,7 +2,7 @@ import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import pool from "../config/database.ts";
 
-const SECRET_KEY = process.env.JWT_SECRET || "your_secret_key";
+const SECRET_KEY = process.env.DB_JWT_SECRET || "your_secret_key";
 
 export interface AuthenticatedRequest extends Request {
 	user?: any; // TODO: Define a proper user type
